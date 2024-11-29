@@ -1,7 +1,12 @@
-ORG 0x7C00 ; We want BIOS to originate at absolute addres 0x7c00 so it can find the bootloader immediately
+ORG 0 
 BITS 16 ; We want to specify 16 bit code
 
 start_program:
+    cli
+    mov ax, 0x7C0
+    mov es, ax
+    mov ds, ax
+    sti
     mov si, msg
     call print_whole
 

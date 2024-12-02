@@ -1,11 +1,19 @@
 ORG 0 
 BITS 16 ; We want to specify 16 bit code
 
+jmp 0x7C0:start_program
+
 start_program:
     cli
+
     mov ax, 0x7C0
     mov es, ax
     mov ds, ax
+
+    mov bx, 0x00
+    mov ss, bx
+    mov sp, 0x7C00
+
     sti
     mov si, msg
     call print_whole

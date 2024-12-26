@@ -1,7 +1,16 @@
 ORG 0 
 BITS 16 ; We want to specify 16 bit code
 
-jmp 0x7C0:start_program
+
+
+init:
+    jmp short crossover
+    nop
+
+times 33 db 0
+
+crossover:
+    jmp 0x7C0:start_program
 
 start_program:
     cli

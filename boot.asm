@@ -5,6 +5,9 @@ BITS 16 ; We want to specify 16 bit code
 ; be booted from the BIOS of a given computer once it is booted in Real
 ; Mode
 
+; Suggested resource is Ralf Brown's Interrupt List. Would be attached
+; to repository but unfortunately file size is too large
+
 init:
     jmp short crossover
     nop
@@ -13,6 +16,13 @@ times 33 db 0
 
 crossover:
     jmp 0x7C0:start_program
+
+interr_zero:
+    mov ah, 0eh
+    mov al, 'L'
+    mov bx, 0x00
+    int 0x10
+    iret
 
 start_program:
     cli
@@ -26,6 +36,22 @@ start_program:
     mov sp, 0x7C00
 
     sti
+
+    ; READING FROM THE HARD DISK via CHS
+    ; mov ah, 2 ; This reads from the sector command
+    ; mov al, 1 ; Chooses one sector to read from
+    ; mov ch, 0 ; Cylinder low of 8 bits
+    ; mov cl, 2 ; Read of the sector 2
+    ; mov dh, 0 ; CHS Head number/mark
+
+
+
+    mov word[ss:0x00], interr_zero
+    mov word[ss:0x02], 0x7C0
+
+    int 0 ; you can also store 0x00 in a register and divide by zero to call the exception
+    ; and summon the aforementioned function
+
     mov si, msg
     call print_whole
 

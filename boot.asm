@@ -1,7 +1,9 @@
 ORG 0 
 BITS 16 ; We want to specify 16 bit code
 
-
+; This program has been tested on a Cruzer Glide USB stick, and can
+; be booted from the BIOS of a given computer once it is booted in Real
+; Mode
 
 init:
     jmp short crossover

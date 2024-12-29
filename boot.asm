@@ -63,6 +63,16 @@ start_program:
     jmp $
 
 
+gdt_null: ; initialize 64 null bits, use if necessary
+    dd 0x0
+    dd 0x0
+
+gdt_code:
+    ; point to this function via CS register
+    dw 0xFFFF ; Limit this segment to 0->15 bits
+    dw 0 ; Base of the first 0->15 bits
+
+
 error_occur:
     mov si, error_msg
     call print_whole

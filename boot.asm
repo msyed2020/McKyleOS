@@ -86,8 +86,6 @@ print_individual:
 error_msg:
     db 'Failed to load sector', 0
 
-msg:
-    db 'McKyle OS', 0
 
 times 510-($ - $$) db 0 ; run 510 times, initializing in the db register 1 byte assigned to 0. $ represents the current iteration, $$ the first, and
 ; therefore ($ - $$) is the difference between the current byte and the beginning byte */

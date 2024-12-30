@@ -35,6 +35,8 @@ start_program:
 
     sti
 
+    ; Rest of lines in start_program are CFD
+
     ; READING FROM THE HARD DISK via CHS
     mov ah, 2 ; This reads from the sector command
     mov al, 1 ; Chooses one sector to read from
@@ -59,6 +61,14 @@ start_program:
     ; hard disk should load
 
     jmp $
+
+.load_protected_mode:
+    cli ; clear any and all interrupts beforehand
+    lgdt[gdt_descriptor_loader]
+    mov eax, cr0 ; dealing with 32-bit registers now that we enter
+    ; protected mode
+    or eax, 0x1
+    mov cr0, eax
 
 initialize_gdt:
 
@@ -88,13 +98,17 @@ gdt_actual_data:
 end_gdt:
 
 gdt_descriptor_loader:
-    dw end_gdt - initialize_gdt - 1
+    dw end_gdt - initialize_gdt - 1 ; get GDT descriptor size
     dd initialize_gdt 
 
-error_occur:
+
+
+error_occur: ; CFD
     mov si, error_msg
     call print_whole
     jmp $ ; keep looping in the same current area, until all assembling for bytes is done, then we can finally execute the dw command
+
+; print_whole, finito, and print_individual are candidates for deletion
 
 print_whole: ; prints whole string given in msg
 .loop:
@@ -113,6 +127,8 @@ print_individual:
 
 error_msg:
     db 'Failed to load sector', 0
+
+[BITS 32]
 
 
 times 510-($ - $$) db 0 ; run 510 times, initializing in the db register 1 byte assigned to 0. $ represents the current iteration, $$ the first, and

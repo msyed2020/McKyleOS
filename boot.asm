@@ -71,7 +71,9 @@ gdt_code:
     ; point to this function via CS register
     dw 0xFFFF ; Limit this segment to 0->15 bits
     dw 0 ; Base of the first 0->15 bits
-
+    db 0 ; Base of 16->23 bits (different register used for the next byte)
+    ; Keep in mind, 1 byte == 8 bits (The byte ate (8), then it had bit)
+    db 0x9a ; Access byte (refer to OSDev Wiki on GDT)
 
 error_occur:
     mov si, error_msg

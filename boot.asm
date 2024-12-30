@@ -77,6 +77,15 @@ gdt_code:
     db 11001111b ; High 4 bit flags, along with low 4 bit flags
     db 0 ; Base of 24->31 bits, which represents the next byte
 
+gdt_actual_data:
+    ; point to this function via DS, SS, ES, FS, GS registers
+    dw 0xFFFF 
+    dw 0 
+    db 0
+    db 0x92 ; Change access byte flag
+    db 11001111b
+    db 0
+
 error_occur:
     mov si, error_msg
     call print_whole

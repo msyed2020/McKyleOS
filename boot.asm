@@ -1,4 +1,4 @@
-ORG 0 
+ORG 0x7C00 
 BITS 16 ; We want to specify 16 bit code
 
 ; This program has been tested on a Cruzer Glide USB stick, and can
@@ -15,7 +15,7 @@ init:
 times 33 db 0
 
 crossover:
-    jmp 0x7C0:start_program
+    jmp 0:start_program
 
 ; interr_zero: ; IVT proof of concept
 ;     mov ah, 0eh
@@ -27,12 +27,10 @@ crossover:
 start_program:
     cli
 
-    mov ax, 0x7C0
+    mov ax, 0x00
     mov es, ax
     mov ds, ax
-
-    mov bx, 0x00
-    mov ss, bx
+    mov ss, ax
     mov sp, 0x7C00
 
     sti

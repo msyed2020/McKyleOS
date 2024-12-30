@@ -62,6 +62,7 @@ start_program:
 
     jmp $
 
+initialize_gdt:
 
 gdt_null: ; initialize 64 null bits, use if necessary
     dd 0x0
@@ -85,6 +86,12 @@ gdt_actual_data:
     db 0x92 ; Change access byte flag
     db 11001111b
     db 0
+
+end_gdt:
+
+gdt_descriptor_loader:
+    dw end_gdt - initialize_gdt - 1
+    dd initialize_gdt 
 
 error_occur:
     mov si, error_msg

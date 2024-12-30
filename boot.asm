@@ -74,6 +74,8 @@ gdt_code:
     db 0 ; Base of 16->23 bits (different register used for the next byte)
     ; Keep in mind, 1 byte == 8 bits (The byte ate (8), then it had bit)
     db 0x9a ; Access byte (refer to OSDev Wiki on GDT)
+    db 11001111b ; High 4 bit flags, along with low 4 bit flags
+    db 0 ; Base of 24->31 bits, which represents the next byte
 
 error_occur:
     mov si, error_msg

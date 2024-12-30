@@ -130,6 +130,9 @@ error_msg:
 
 [BITS 32]
 
+load_32bit:
+    jmp $
+
 
 times 510-($ - $$) db 0 ; run 510 times, initializing in the db register 1 byte assigned to 0. $ represents the current iteration, $$ the first, and
 ; therefore ($ - $$) is the difference between the current byte and the beginning byte */

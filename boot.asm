@@ -8,6 +8,8 @@ BITS 16 ; We want to specify 16 bit code
 ; Suggested resource is Ralf Brown's Interrupt List. Would be attached
 ; to repository but unfortunately file size is too large
 
+; CDF stands for Candidate For Deletion
+
 init:
     jmp short crossover
     nop

@@ -1,6 +1,8 @@
 ORG 0x7C00 
 BITS 16 ; We want to specify 16 bit code
 
+CODE_SEG 
+
 ; This program has been tested on a Cruzer Glide USB stick, and can
 ; be booted from the BIOS of a given computer once it is booted in Real
 ; Mode
@@ -40,29 +42,29 @@ start_program:
     ; Rest of lines in start_program are CFD
 
     ; READING FROM THE HARD DISK via CHS
-    mov ah, 2 ; This reads from the sector command
-    mov al, 1 ; Chooses one sector to read from
-    mov ch, 0 ; Cylinder low of 8 bits
-    mov cl, 2 ; Read of the sector 2
-    mov dh, 0 ; CHS Head number/mark
+    ; mov ah, 2 ; This reads from the sector command
+    ; mov al, 1 ; Chooses one sector to read from
+    ; mov ch, 0 ; Cylinder low of 8 bits
+    ; mov cl, 2 ; Read of the sector 2
+    ; mov dh, 0 ; CHS Head number/mark
 
-    mov bx, buffer_dest
+    ; mov bx, buffer_dest
 
-    int 0x13 ; Interrupt for hard disk
+    ; int 0x13 ; Interrupt for hard disk
 
-    ;mov word[ss:0x00], interr_zero ; IVT proof of concept
-    ;mov word[ss:0x02], 0x7C0
+    ; ;mov word[ss:0x00], interr_zero ; IVT proof of concept
+    ; ;mov word[ss:0x02], 0x7C0
 
-    ;int 0 ; you can also store 0x00 in a register and divide by zero to call the exception
-    ; and summon the aforementioned function
+    ; ;int 0 ; you can also store 0x00 in a register and divide by zero to call the exception
+    ; ; and summon the aforementioned function
 
-    jc error_occur
+    ; jc error_occur
 
-    mov si, buffer_dest
-    call print_whole ; Assuming this buffer works and allocates space correctly, the test.txt from the
-    ; hard disk should load
+    ; mov si, buffer_dest
+    ; call print_whole ; Assuming this buffer works and allocates space correctly, the test.txt from the
+    ; ; hard disk should load
 
-    jmp $
+    ; jmp $
 
 .load_protected_mode:
     cli ; clear any and all interrupts beforehand
@@ -105,30 +107,30 @@ gdt_descriptor_loader:
 
 
 
-error_occur: ; CFD
-    mov si, error_msg
-    call print_whole
-    jmp $ ; keep looping in the same current area, until all assembling for bytes is done, then we can finally execute the dw command
+; error_occur: ; CFD
+;     mov si, error_msg
+;     call print_whole
+;     jmp $ ; keep looping in the same current area, until all assembling for bytes is done, then we can finally execute the dw command
 
 ; print_whole, finito, and print_individual are candidates for deletion
 
-print_whole: ; prints whole string given in msg
-.loop:
-    lodsb ; this function actually points to the next letter in the string and selects it
-    cmp al, 0
-    je .finito
-    call print_individual
-    jmp .loop
-.finito:
-    ret
+; print_whole: ; prints whole string given in msg
+; .loop:
+;     lodsb ; this function actually points to the next letter in the string and selects it
+;     cmp al, 0
+;     je .finito
+;     call print_individual
+;     jmp .loop
+; .finito:
+;     ret
 
-print_individual:
-    mov ah, 0eh ; Provide BIOS routine to print a letter
-    int 0x10
-    ret
+; print_individual:
+;     mov ah, 0eh ; Provide BIOS routine to print a letter
+;     int 0x10
+;     ret
 
-error_msg:
-    db 'Failed to load sector', 0
+; error_msg:
+;     db 'Failed to load sector', 0
 
 [BITS 32]
 

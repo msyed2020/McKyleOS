@@ -137,6 +137,15 @@ gdt_descriptor_loader:
 [BITS 32]
 
 load_32bit:
+    ; load emulator
+    mov ax, DATA_SEG
+    mov ds, ax
+    mov es, ax
+    mov fs, ax
+    mov gs, ax
+    mov ss, ax
+    mov ebp, 0x00200000 ; 32 bit base pointer
+    mov esp, ebp ; move 32 bit base pointer to 32 bit stack pointer
     jmp $
 
 

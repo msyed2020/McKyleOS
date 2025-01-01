@@ -1,7 +1,8 @@
 ORG 0x7C00 
 BITS 16 ; We want to specify 16 bit code
 
-CODE_SEG 
+CODE_SEG equ gdt_code - initialize_gdt
+DATA_SEG equ gdt_actual_data - initialize_gdt
 
 ; This program has been tested on a Cruzer Glide USB stick, and can
 ; be booted from the BIOS of a given computer once it is booted in Real
@@ -73,6 +74,7 @@ start_program:
     ; protected mode
     or eax, 0x1
     mov cr0, eax
+    jmp CODE_SEG:load_32bit
 
 initialize_gdt:
 

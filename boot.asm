@@ -146,6 +146,9 @@ load_32bit:
     mov ss, ax
     mov ebp, 0x00200000 ; 32 bit base pointer
     mov esp, ebp ; move 32 bit base pointer to 32 bit stack pointer
+
+    ; BIOS no longer accessible from here; if done so, consequences ensue
+
     jmp $
 
 

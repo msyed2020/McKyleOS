@@ -149,7 +149,10 @@ load_32bit:
 
     ; BIOS no longer accessible from here; if done so, consequences ensue
 
-    
+    ; Enabling A20 line
+    in al, 0x92
+    or al, 2
+    out 0x92, al
 
     jmp $
 

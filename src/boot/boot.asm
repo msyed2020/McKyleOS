@@ -13,6 +13,8 @@ DATA_SEG equ gdt_actual_data - initialize_gdt
 
 ; CDF stands for Candidate For Deletion
 
+; Let's get back to this soon bruh
+
 init:
     jmp short crossover
     nop
